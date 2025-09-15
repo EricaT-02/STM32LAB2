@@ -183,7 +183,6 @@ static void MX_TIM2_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
-
 }
 /* USER CODE END 4 */
 
