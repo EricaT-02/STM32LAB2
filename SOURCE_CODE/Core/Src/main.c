@@ -71,16 +71,16 @@ int led_buffer[4] = {1,2,3,4};
 void update7SEG(int index) {
 	switch(index) {
 	case 0:
-		led_buffer[1] = 0;
+		led_buffer[1] = 1;
 		break;
 	case 1:
-		led_buffer[2] = 0;
+		led_buffer[2] = 2;
 		break;
 	case 2:
-		led_buffer[3] = 0;
+		led_buffer[3] = 4;
 		break;
 	case 3:
-		led_buffer[4] = 0;
+		led_buffer[4] = 8;
 		break;
 	default:
 		break;
@@ -113,7 +113,7 @@ void update7SEG(int index) {
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(2);
-  setTimer2(5);
+  setTimer2(3);
   setTimer3(7);
   while (1)
   {
@@ -124,9 +124,7 @@ void update7SEG(int index) {
 
 	if (timer2_flag == 1) {
 		setTimer2(50);
-		switch (status) {
-
-		}
+		update7SEG(index_led++);
 	}
     /* USER CODE END WHILE */
 
