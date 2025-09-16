@@ -65,8 +65,28 @@ static void MX_TIM2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
+const int MAX_LED = 4;
+int index_led = 0;
+int led_buffer[4] = {1,2,3,4};
+void update7SEG(int index) {
+	switch(index) {
+	case 0:
+		led_buffer[1] = 0;
+		break;
+	case 1:
+		led_buffer[2] = 0;
+		break;
+	case 2:
+		led_buffer[3] = 0;
+		break;
+	case 3:
+		led_buffer[4] = 0;
+		break;
+	default:
+		break;
+	}
+}
+/* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -92,8 +112,22 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  setTimer1(2);
+  setTimer2(5);
+  setTimer3(7);
   while (1)
   {
+	if (timer1_flag == 1) {
+		setTimer1(100);
+		HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
+	}
+
+	if (timer2_flag == 1) {
+		setTimer2(50);
+		switch (status) {
+
+		}
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -183,6 +217,7 @@ static void MX_TIM2_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
+	timerRun();
 }
 /* USER CODE END 4 */
 
