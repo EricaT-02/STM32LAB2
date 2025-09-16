@@ -94,8 +94,54 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  setTimer1(100);
+  setTimer2(50);
+  setTimer3(50);
+  int status = 0;
   while (1)
   {
+	  if (timer1_flag == 1) {
+		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
+		  HAL_GPIO_WritePin(GPIOA, EN0_Pin|EN1_Pin, SET);
+		  setTimer1(100);
+	  }
+
+	  if (timer2_flag == 1) {
+		  switch (status) {
+		  	  case 0:
+		  		  HAL_GPIO_WritePin(GPIOB, SEG0_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG1_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG2_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG3_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG4_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG5_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG6_Pin, SET);
+				  HAL_GPIO_WritePin(GPIOA, EN2_Pin, SET);
+				  HAL_GPIO_WritePin(GPIOA, EN3_Pin, RESET);
+		  		  break;
+		  	  case 1:
+		  		  HAL_GPIO_WritePin(GPIOB, SEG0_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG1_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG2_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG3_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOB, SEG4_Pin, SET);
+				  HAL_GPIO_WritePin(GPIOB, SEG5_Pin, SET);
+				  HAL_GPIO_WritePin(GPIOB, SEG6_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOA, EN2_Pin, RESET);
+				  HAL_GPIO_WritePin(GPIOA, EN3_Pin, SET);
+		  		  break;
+		  	  default:
+		  		  break;
+		  }
+		  setTimer2(50);
+	  }
+
+	  if (timer3_flag == 1) {
+		  status++;
+		  if (status >= 1) {
+			  status = 0;
+		  }
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
