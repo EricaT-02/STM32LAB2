@@ -5,7 +5,6 @@
  *      Author: pc
  */
 
-
 #include "software_timer.h"
 
 int timer1_counter = 0;
