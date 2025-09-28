@@ -281,8 +281,8 @@ void update7SEG(int index) {
 int counter = -1;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 	if (index_led >= 4) index_led = 0;
+	update7SEG(index_led++);
 	if (counter <= 0) {
-		update7SEG(index_led++);
 		counter = 100;
 		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 	} else counter--;
