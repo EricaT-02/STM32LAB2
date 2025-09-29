@@ -65,10 +65,6 @@ static void MX_TIM2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-void updateClockBuffer() {
-	led_buffer[0] = minute;
-	led_buffer[1] = hour;
-}
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -201,6 +197,10 @@ static void MX_TIM2_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void updateClockBuffer() {
+	led_buffer[0] = minute;
+	led_buffer[1] = hour;
+}
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 	timerRun();
 }
