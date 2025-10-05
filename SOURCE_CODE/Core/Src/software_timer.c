@@ -6,7 +6,7 @@
  */
 
 #include "software_timer.h"
-
+/*
 int timer1_counter = 0;
 int timer1_flag = 0;
 
@@ -22,4 +22,4 @@ void timerRun() {
 			timer1_flag = 1;
 		}
 	}
-}
+}*/
