@@ -64,21 +64,10 @@ void setTimer0 ( int duration ) {
 	timer0_flag = 0;
 }
 
-int timer1_counter = 0;
-int timer1_flag = 0;
-void setTimer1 ( int duration ) {
-	timer1_counter = duration / TIMER_CYCLE ;
-	timer1_flag = 0;
-}
-
 void timer_run () {
 	if( timer0_counter > 0) {
 		timer0_counter --;
 		if (timer0_counter == 0) timer0_flag = 1;
-	}
-	if( timer1_counter > 0) {
-		timer1_counter --;
-		if (timer1_counter == 0) timer1_flag = 1;
 	}
 }
 const int MAX_LED = 4;
@@ -183,7 +172,6 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer0(1000);
-  setTimer1(10);
   while (1)
   {
 	  if (timer0_flag == 1) {
@@ -203,11 +191,6 @@ int main(void)
 		  }
 		  updateClockBuffer();
 		  setTimer0(1000);
-	  }
-	  if (timer1_flag == 1) {
-		  if (index_led >= 4) index_led = 0;
-		  update7SEG(index_led++);
-		  setTimer1(250);
 	  }
 
     /* USER CODE END WHILE */
@@ -339,9 +322,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+int counter = 25;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 	timer_run();
+	counter--;
+	if(index_led >= 4) index_led = 0;
+	if (counter <= 0) {
+		counter = 25;
+		update7SEG(index_led++);
+	}
 }
 /* USER CODE END 4 */
 
