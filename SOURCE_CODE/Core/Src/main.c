@@ -118,11 +118,10 @@ void update7SEG(int index) {
 	}
 }
 void updateClockBuffer() {
-	//return;
-	led_buffer[0] = 1;
-	led_buffer[1] = 5;
-	led_buffer[2] = 0;
-	led_buffer[3] = 8;
+	led_buffer[0] = hour/10;
+	led_buffer[1] = hour%10;
+	led_buffer[2] = minute/10;
+	led_buffer[3] = minute%10;
 }
 /* USER CODE END 0 */
 
