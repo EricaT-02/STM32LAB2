@@ -13,6 +13,8 @@ int timer1_counter = 0;
 int timer1_flag = 0;
 int timer0_counter = 0;
 int timer0_flag = 0;
+int timer2_counter = 0;
+int timer2_flag = 0;
 
 void setTimer0(int duration) {
 	timer0_counter = duration / TIMER_CYCLE;
@@ -22,6 +24,11 @@ void setTimer0(int duration) {
 void setTimer1(int duration) {
 	timer1_counter = duration / TIMER_CYCLE;
 	timer1_flag = 0;
+}
+
+void setTimer2(int duration) {
+	timer2_counter = duration / TIMER_CYCLE;
+	timer2_flag = 0;
 }
 
 void timerRun() {

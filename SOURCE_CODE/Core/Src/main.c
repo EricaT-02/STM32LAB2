@@ -58,16 +58,25 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0x00, 0xFC, 0xFE, 0x11, 0x11, 0xFE, 0xFC, 0x00};
-
+uint8_t matrix_buffer[8] = {0x00, 0xFC, 0xFE, 0x13, 0x13, 0xFE, 0xFC, 0x00};
+//uint8_t matrix_buffer[8] = {0x18, 0x24, 0x42, 0x7E, 0x42, 0x42, 0x00, 0x00};
 void updateLEDMatrix(int index) {
 	 HAL_GPIO_WritePin(GPIOA, ENM0_Pin | ENM1_Pin | ENM2_Pin | ENM3_Pin |
 							  ENM4_Pin | ENM5_Pin | ENM6_Pin | ENM7_Pin, GPIO_PIN_SET);
 	 HAL_GPIO_WritePin(GPIOB, ROW0_Pin | ROW1_Pin | ROW2_Pin | ROW3_Pin |
 							  ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, GPIO_PIN_SET);
 
-	uint16_t row_data = matrix_buffer[index];
-	HAL_GPIO_WritePin(GPIOB, (row_data << 8), GPIO_PIN_RESET);
+	//uint16_t row_data = matrix_buffer[index];
+	//HAL_GPIO_WritePin(GPIOB, (row_data << 8), GPIO_PIN_RESET);
+
+	HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, (matrix_buffer[index] & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, (matrix_buffer[index] & 0x02) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, (matrix_buffer[index] & 0x04) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, (matrix_buffer[index] & 0x08) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, (matrix_buffer[index] & 0x10) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, (matrix_buffer[index] & 0x20) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, (matrix_buffer[index] & 0x40) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, (matrix_buffer[index] & 0x80) ? RESET : SET);
 	switch(index) {
 	case 0:
 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, RESET);
@@ -96,6 +105,26 @@ void updateLEDMatrix(int index) {
 	default:
 		break;
 	}
+}
+void shiftLeft(void) {
+	/*matrix_buffer[index_led_matrix] = matrix_buffer[index_led_matrix] << 1;
+	if (matrix_buffer[index_led_matrix] & (1 << MAX_LED_MATRIX)) {
+		matrix_buffer[index_led_matrix] |= 1;
+		matrix_buffer[index_led_matrix] &= ~(1 << MAX_LED_MATRIX);
+	}*/
+	uint8_t topRow = matrix_buffer[0];
+
+	// Manually shift all rows up
+	matrix_buffer[0] = matrix_buffer[1];
+	matrix_buffer[1] = matrix_buffer[2];
+	matrix_buffer[2] = matrix_buffer[3];
+	matrix_buffer[3] = matrix_buffer[4];
+	matrix_buffer[4] = matrix_buffer[5];
+	matrix_buffer[5] = matrix_buffer[6];
+	matrix_buffer[6] = matrix_buffer[7];
+
+  // Place the top row at the bottom (wrap-around)
+	matrix_buffer[7] = topRow;
 }
 
 const int MAX_LED = 4;
@@ -185,7 +214,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer0(1000);
-  setTimer1(100);
+  setTimer1(10);
+  setTimer2(750);
   while (1)
   {
 	  if (timer0_flag == 1) {
@@ -196,7 +226,11 @@ int main(void)
 	  if (timer1_flag == 1) {
 		  updateLEDMatrix(index_led_matrix++);
 		  if (index_led_matrix >= MAX_LED_MATRIX) index_led_matrix = 0;
-		  setTimer1(40);
+		  setTimer1(100);
+	  }
+	  if (timer2_flag == 1) {
+		  shiftLeft();
+		  setTimer2(800);
 	  }
     /* USER CODE END WHILE */
 
