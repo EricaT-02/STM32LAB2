@@ -56,35 +56,10 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-const int MAX_LED = 4;
-int index_led = 0;
-int led_buffer[4] ;
-int hour = 15 , minute = 8 , second = 50;
-int counter = 25;
-int counter1 = 100;
-uint8_t segment_digits[10][7] = {
-	{0,0,0,0,0,0,1}, // 0
-	{1,0,0,1,1,1,1}, // 1
-	{0,0,1,0,0,1,0}, // 2
-	{0,0,0,0,1,1,0}, // 3
-	{1,0,0,1,1,0,0}, // 4
-	{0,1,0,0,1,0,0}, // 5
-	{0,1,0,0,0,0,0}, // 6
-	{0,0,0,1,1,1,1}, // 7
-	{0,0,0,0,0,0,0}, // 8
-	{0,0,0,0,1,0,0}  // 9
-};
-void display7SEG(int num) {
-	if (num > 9)	return;
-	HAL_GPIO_WritePin(SEG0_GPIO_Port, SEG0_Pin, segment_digits[num][0] ? SET : RESET);
-	HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, segment_digits[num][1] ? SET : RESET);
-	HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, segment_digits[num][2] ? SET : RESET);
-	HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, segment_digits[num][3] ? SET : RESET);
-	HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, segment_digits[num][4] ? SET : RESET);
-	HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, segment_digits[num][5] ? SET : RESET);
-	HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, segment_digits[num][6] ? SET : RESET);
-}
-void update7SEG(int index) {
+const int MAX_LED_MATRIX = 8;
+int index_led_matrix = 0;
+uint8_t matrix_buffer[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+void updateLEDMatrix(int index) {
 	switch(index) {
 	case 0:
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
