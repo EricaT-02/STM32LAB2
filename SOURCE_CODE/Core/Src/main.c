@@ -58,7 +58,7 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0x00, 0xFC, 0xFE, 0x12, 0x12, 0xFE, 0xFC, 0x00};
+uint8_t matrix_buffer[8] = {0x00, 0xFC, 0xFE, 0x11, 0x11, 0xFE, 0xFC, 0x00};
 
 void updateLEDMatrix(int index) {
 	 HAL_GPIO_WritePin(GPIOA, ENM0_Pin | ENM1_Pin | ENM2_Pin | ENM3_Pin |
@@ -191,12 +191,12 @@ int main(void)
 	  if (timer0_flag == 1) {
 		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-		  setTimer0(100);
+		  setTimer0(1000);
 	  }
 	  if (timer1_flag == 1) {
 		  updateLEDMatrix(index_led_matrix++);
 		  if (index_led_matrix >= MAX_LED_MATRIX) index_led_matrix = 0;
-		  setTimer1(100);
+		  setTimer1(40);
 	  }
     /* USER CODE END WHILE */
 

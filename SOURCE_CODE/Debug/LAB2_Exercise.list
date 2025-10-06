@@ -80,7 +80,7 @@ Disassembly of section .text:
 /* USER CODE BEGIN 0 */
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0x00, 0xFC, 0xFE, 0x12, 0x12, 0xFE, 0xFC, 0x00};
+uint8_t matrix_buffer[8] = {0x00, 0xFC, 0xFE, 0x11, 0x11, 0xFE, 0xFC, 0x00};
 
 void updateLEDMatrix(int index) {
  800014c:	b580      	push	{r7, lr}
@@ -259,7 +259,7 @@ int main(void)
  8000260:	4b14      	ldr	r3, [pc, #80]	; (80002b4 <main+0x7c>)
  8000262:	681b      	ldr	r3, [r3, #0]
  8000264:	2b01      	cmp	r3, #1
- 8000266:	d10a      	bne.n	800027e <main+0x46>
+ 8000266:	d10b      	bne.n	8000280 <main+0x48>
 		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
  8000268:	2120      	movs	r1, #32
  800026a:	4813      	ldr	r0, [pc, #76]	; (80002b8 <main+0x80>)
@@ -268,38 +268,37 @@ int main(void)
  8000270:	2110      	movs	r1, #16
  8000272:	4811      	ldr	r0, [pc, #68]	; (80002b8 <main+0x80>)
  8000274:	f000 fd2c 	bl	8000cd0 <HAL_GPIO_TogglePin>
-		  setTimer0(100);
- 8000278:	2064      	movs	r0, #100	; 0x64
- 800027a:	f000 f911 	bl	80004a0 <setTimer0>
+		  setTimer0(1000);
+ 8000278:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 800027c:	f000 f910 	bl	80004a0 <setTimer0>
 	  }
 	  if (timer1_flag == 1) {
- 800027e:	4b0f      	ldr	r3, [pc, #60]	; (80002bc <main+0x84>)
- 8000280:	681b      	ldr	r3, [r3, #0]
- 8000282:	2b01      	cmp	r3, #1
- 8000284:	d1ec      	bne.n	8000260 <main+0x28>
+ 8000280:	4b0e      	ldr	r3, [pc, #56]	; (80002bc <main+0x84>)
+ 8000282:	681b      	ldr	r3, [r3, #0]
+ 8000284:	2b01      	cmp	r3, #1
+ 8000286:	d1eb      	bne.n	8000260 <main+0x28>
 		  updateLEDMatrix(index_led_matrix++);
- 8000286:	4b0e      	ldr	r3, [pc, #56]	; (80002c0 <main+0x88>)
- 8000288:	681b      	ldr	r3, [r3, #0]
- 800028a:	1c5a      	adds	r2, r3, #1
- 800028c:	490c      	ldr	r1, [pc, #48]	; (80002c0 <main+0x88>)
- 800028e:	600a      	str	r2, [r1, #0]
- 8000290:	4618      	mov	r0, r3
- 8000292:	f7ff ff5b 	bl	800014c <updateLEDMatrix>
+ 8000288:	4b0d      	ldr	r3, [pc, #52]	; (80002c0 <main+0x88>)
+ 800028a:	681b      	ldr	r3, [r3, #0]
+ 800028c:	1c5a      	adds	r2, r3, #1
+ 800028e:	490c      	ldr	r1, [pc, #48]	; (80002c0 <main+0x88>)
+ 8000290:	600a      	str	r2, [r1, #0]
+ 8000292:	4618      	mov	r0, r3
+ 8000294:	f7ff ff5a 	bl	800014c <updateLEDMatrix>
 		  if (index_led_matrix >= MAX_LED_MATRIX) index_led_matrix = 0;
- 8000296:	4b0a      	ldr	r3, [pc, #40]	; (80002c0 <main+0x88>)
- 8000298:	681b      	ldr	r3, [r3, #0]
- 800029a:	2208      	movs	r2, #8
- 800029c:	4293      	cmp	r3, r2
- 800029e:	db02      	blt.n	80002a6 <main+0x6e>
- 80002a0:	4b07      	ldr	r3, [pc, #28]	; (80002c0 <main+0x88>)
- 80002a2:	2200      	movs	r2, #0
- 80002a4:	601a      	str	r2, [r3, #0]
-		  setTimer1(100);
- 80002a6:	2064      	movs	r0, #100	; 0x64
- 80002a8:	f000 f914 	bl	80004d4 <setTimer1>
+ 8000298:	4b09      	ldr	r3, [pc, #36]	; (80002c0 <main+0x88>)
+ 800029a:	681b      	ldr	r3, [r3, #0]
+ 800029c:	2208      	movs	r2, #8
+ 800029e:	4293      	cmp	r3, r2
+ 80002a0:	db02      	blt.n	80002a8 <main+0x70>
+ 80002a2:	4b07      	ldr	r3, [pc, #28]	; (80002c0 <main+0x88>)
+ 80002a4:	2200      	movs	r2, #0
+ 80002a6:	601a      	str	r2, [r3, #0]
+		  setTimer1(40);
+ 80002a8:	2028      	movs	r0, #40	; 0x28
+ 80002aa:	f000 f913 	bl	80004d4 <setTimer1>
 	  if (timer0_flag == 1) {
- 80002ac:	e7d8      	b.n	8000260 <main+0x28>
- 80002ae:	bf00      	nop
+ 80002ae:	e7d7      	b.n	8000260 <main+0x28>
  80002b0:	20000058 	.word	0x20000058
  80002b4:	20000044 	.word	0x20000044
  80002b8:	40010800 	.word	0x40010800
