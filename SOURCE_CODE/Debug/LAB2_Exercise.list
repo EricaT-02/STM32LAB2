@@ -561,80 +561,79 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer0(10);
- 80004a6:	200a      	movs	r0, #10
- 80004a8:	f7ff fe50 	bl	800014c <setTimer0>
+  setTimer0(1000);
+ 80004a6:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 80004aa:	f7ff fe4f 	bl	800014c <setTimer0>
   while (1)
   {
 	  if (timer0_flag == 1) {
- 80004ac:	4b1c      	ldr	r3, [pc, #112]	; (8000520 <main+0x94>)
- 80004ae:	681b      	ldr	r3, [r3, #0]
- 80004b0:	2b01      	cmp	r3, #1
- 80004b2:	d1fb      	bne.n	80004ac <main+0x20>
+ 80004ae:	4b1c      	ldr	r3, [pc, #112]	; (8000520 <main+0x94>)
+ 80004b0:	681b      	ldr	r3, [r3, #0]
+ 80004b2:	2b01      	cmp	r3, #1
+ 80004b4:	d1fb      	bne.n	80004ae <main+0x22>
 		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
- 80004b4:	2120      	movs	r1, #32
- 80004b6:	481b      	ldr	r0, [pc, #108]	; (8000524 <main+0x98>)
- 80004b8:	f000 fcfe 	bl	8000eb8 <HAL_GPIO_TogglePin>
+ 80004b6:	2120      	movs	r1, #32
+ 80004b8:	481a      	ldr	r0, [pc, #104]	; (8000524 <main+0x98>)
+ 80004ba:	f000 fcfd 	bl	8000eb8 <HAL_GPIO_TogglePin>
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
- 80004bc:	2110      	movs	r1, #16
- 80004be:	4819      	ldr	r0, [pc, #100]	; (8000524 <main+0x98>)
- 80004c0:	f000 fcfa 	bl	8000eb8 <HAL_GPIO_TogglePin>
+ 80004be:	2110      	movs	r1, #16
+ 80004c0:	4818      	ldr	r0, [pc, #96]	; (8000524 <main+0x98>)
+ 80004c2:	f000 fcf9 	bl	8000eb8 <HAL_GPIO_TogglePin>
 		  second++;
- 80004c4:	4b18      	ldr	r3, [pc, #96]	; (8000528 <main+0x9c>)
- 80004c6:	681b      	ldr	r3, [r3, #0]
- 80004c8:	3301      	adds	r3, #1
- 80004ca:	4a17      	ldr	r2, [pc, #92]	; (8000528 <main+0x9c>)
- 80004cc:	6013      	str	r3, [r2, #0]
+ 80004c6:	4b18      	ldr	r3, [pc, #96]	; (8000528 <main+0x9c>)
+ 80004c8:	681b      	ldr	r3, [r3, #0]
+ 80004ca:	3301      	adds	r3, #1
+ 80004cc:	4a16      	ldr	r2, [pc, #88]	; (8000528 <main+0x9c>)
+ 80004ce:	6013      	str	r3, [r2, #0]
 		  if (second >= 60) {
- 80004ce:	4b16      	ldr	r3, [pc, #88]	; (8000528 <main+0x9c>)
- 80004d0:	681b      	ldr	r3, [r3, #0]
- 80004d2:	2b3b      	cmp	r3, #59	; 0x3b
- 80004d4:	dd07      	ble.n	80004e6 <main+0x5a>
+ 80004d0:	4b15      	ldr	r3, [pc, #84]	; (8000528 <main+0x9c>)
+ 80004d2:	681b      	ldr	r3, [r3, #0]
+ 80004d4:	2b3b      	cmp	r3, #59	; 0x3b
+ 80004d6:	dd07      	ble.n	80004e8 <main+0x5c>
 			  second = 0;
- 80004d6:	4b14      	ldr	r3, [pc, #80]	; (8000528 <main+0x9c>)
- 80004d8:	2200      	movs	r2, #0
- 80004da:	601a      	str	r2, [r3, #0]
+ 80004d8:	4b13      	ldr	r3, [pc, #76]	; (8000528 <main+0x9c>)
+ 80004da:	2200      	movs	r2, #0
+ 80004dc:	601a      	str	r2, [r3, #0]
 			  minute++;
- 80004dc:	4b13      	ldr	r3, [pc, #76]	; (800052c <main+0xa0>)
- 80004de:	681b      	ldr	r3, [r3, #0]
- 80004e0:	3301      	adds	r3, #1
- 80004e2:	4a12      	ldr	r2, [pc, #72]	; (800052c <main+0xa0>)
- 80004e4:	6013      	str	r3, [r2, #0]
+ 80004de:	4b13      	ldr	r3, [pc, #76]	; (800052c <main+0xa0>)
+ 80004e0:	681b      	ldr	r3, [r3, #0]
+ 80004e2:	3301      	adds	r3, #1
+ 80004e4:	4a11      	ldr	r2, [pc, #68]	; (800052c <main+0xa0>)
+ 80004e6:	6013      	str	r3, [r2, #0]
 		  }
 		  if (minute >= 60) {
- 80004e6:	4b11      	ldr	r3, [pc, #68]	; (800052c <main+0xa0>)
- 80004e8:	681b      	ldr	r3, [r3, #0]
- 80004ea:	2b3b      	cmp	r3, #59	; 0x3b
- 80004ec:	dd07      	ble.n	80004fe <main+0x72>
+ 80004e8:	4b10      	ldr	r3, [pc, #64]	; (800052c <main+0xa0>)
+ 80004ea:	681b      	ldr	r3, [r3, #0]
+ 80004ec:	2b3b      	cmp	r3, #59	; 0x3b
+ 80004ee:	dd07      	ble.n	8000500 <main+0x74>
 			  minute = 0;
- 80004ee:	4b0f      	ldr	r3, [pc, #60]	; (800052c <main+0xa0>)
- 80004f0:	2200      	movs	r2, #0
- 80004f2:	601a      	str	r2, [r3, #0]
+ 80004f0:	4b0e      	ldr	r3, [pc, #56]	; (800052c <main+0xa0>)
+ 80004f2:	2200      	movs	r2, #0
+ 80004f4:	601a      	str	r2, [r3, #0]
 			  hour++;
- 80004f4:	4b0e      	ldr	r3, [pc, #56]	; (8000530 <main+0xa4>)
- 80004f6:	681b      	ldr	r3, [r3, #0]
- 80004f8:	3301      	adds	r3, #1
- 80004fa:	4a0d      	ldr	r2, [pc, #52]	; (8000530 <main+0xa4>)
- 80004fc:	6013      	str	r3, [r2, #0]
+ 80004f6:	4b0e      	ldr	r3, [pc, #56]	; (8000530 <main+0xa4>)
+ 80004f8:	681b      	ldr	r3, [r3, #0]
+ 80004fa:	3301      	adds	r3, #1
+ 80004fc:	4a0c      	ldr	r2, [pc, #48]	; (8000530 <main+0xa4>)
+ 80004fe:	6013      	str	r3, [r2, #0]
 		  }
 		  if (hour >= 24) {
- 80004fe:	4b0c      	ldr	r3, [pc, #48]	; (8000530 <main+0xa4>)
- 8000500:	681b      	ldr	r3, [r3, #0]
- 8000502:	2b17      	cmp	r3, #23
- 8000504:	dd02      	ble.n	800050c <main+0x80>
+ 8000500:	4b0b      	ldr	r3, [pc, #44]	; (8000530 <main+0xa4>)
+ 8000502:	681b      	ldr	r3, [r3, #0]
+ 8000504:	2b17      	cmp	r3, #23
+ 8000506:	dd02      	ble.n	800050e <main+0x82>
 			  hour = 0;
- 8000506:	4b0a      	ldr	r3, [pc, #40]	; (8000530 <main+0xa4>)
- 8000508:	2200      	movs	r2, #0
- 800050a:	601a      	str	r2, [r3, #0]
+ 8000508:	4b09      	ldr	r3, [pc, #36]	; (8000530 <main+0xa4>)
+ 800050a:	2200      	movs	r2, #0
+ 800050c:	601a      	str	r2, [r3, #0]
 		  }
 		  updateClockBuffer();
- 800050c:	f7ff ff7e 	bl	800040c <updateClockBuffer>
+ 800050e:	f7ff ff7d 	bl	800040c <updateClockBuffer>
 		  setTimer0(1000);
- 8000510:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8000514:	f7ff fe1a 	bl	800014c <setTimer0>
+ 8000512:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8000516:	f7ff fe19 	bl	800014c <setTimer0>
 	  if (timer0_flag == 1) {
- 8000518:	e7c8      	b.n	80004ac <main+0x20>
- 800051a:	bf00      	nop
+ 800051a:	e7c8      	b.n	80004ae <main+0x22>
  800051c:	200000a8 	.word	0x200000a8
  8000520:	20000098 	.word	0x20000098
  8000524:	40010800 	.word	0x40010800
