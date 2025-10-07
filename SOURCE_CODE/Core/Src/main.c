@@ -71,7 +71,7 @@ void setTimer1(int duration) {
 	timer1_flag = 0;
 }
 
-void timerRun() {
+void timer_run() {
 	if (timer0_counter > 0) {
 		timer0_counter--;
 		if (timer0_counter == 0) timer0_flag = 1;
@@ -341,7 +341,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
-	timerRun();
+	timer_run();
 	counter--;
 	if (index_led >= 4) index_led = 0;
 	if (counter <= 0) {
