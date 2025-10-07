@@ -100,7 +100,8 @@ void updateLEDMatrix(int index) {
 
 const int MAX_LED = 4;
 int index_led = 0;
-int led_buffer[4];
+int led_buffer[4] = {1,5,0,8};
+int hour = 15, minute = 8, second = 50;
 uint8_t segment_digits[10][7] = {
 	{0,0,0,0,0,0,1}, // 0
 	{1,0,0,1,1,1,1}, // 1
@@ -113,7 +114,18 @@ uint8_t segment_digits[10][7] = {
 	{0,0,0,0,0,0,0}, // 8
 	{0,0,0,0,1,0,0}  // 9
 };
-/*
+
+void display7SEG(int num) {
+	if (num > 9)	return;
+	HAL_GPIO_WritePin(SEG0_GPIO_Port, SEG0_Pin, segment_digits[num][0] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, segment_digits[num][1] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, segment_digits[num][2] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, segment_digits[num][3] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, segment_digits[num][4] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, segment_digits[num][5] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, segment_digits[num][6] ? SET : RESET);
+}
+
 void update7SEG(int index) {
 	switch(index) {
 	case 0:
@@ -146,7 +158,14 @@ void update7SEG(int index) {
 	default:
 		break;
 	}
-}*/
+}
+
+void updateClockBuffer() {
+	led_buffer[0] = hour/10;
+	led_buffer[1] = hour%10;
+	led_buffer[2] = minute/10;
+	led_buffer[3] = minute%10;
+}
 
 /* USER CODE END 0 */
 
@@ -185,18 +204,37 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer0(1000);
-  setTimer1(100);
+  setTimer1(70);
+  setTimer2(10);
   while (1)
   {
 	  if (timer0_flag == 1) {
 		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+		  second ++;
+		  if ( second >= 60) {
+			  second = 0;
+			  minute ++;
+		  }
+		  if ( minute >= 60) {
+			  minute = 0;
+			  hour ++;
+		  }
+		  if ( hour >= 24) {
+			  hour = 0;
+		  }
+		  updateClockBuffer () ;
 		  setTimer0(1000);
 	  }
 	  if (timer1_flag == 1) {
 		  updateLEDMatrix(index_led_matrix++);
 		  if (index_led_matrix >= MAX_LED_MATRIX) index_led_matrix = 0;
 		  setTimer1(40);
+	  }
+	  if (timer2_flag == 1) {
+		  update7SEG(index_led++);
+		  if (index_led >= 4) index_led = 0;
+		  setTimer2(250);
 	  }
     /* USER CODE END WHILE */
 
@@ -341,7 +379,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
-	timerRun();
+	timer_run();
 }
 /* USER CODE END 4 */
 
