@@ -96,48 +96,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
   while (1)
-  {/*
-	  if (timer1_flag == 1) {
-		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		  HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
-		  setTimer1(100);
-	  }
-
-	  if (timer2_flag == 1) {
-		  switch (status) {
-		  	  case 1:
-		  		  HAL_GPIO_WritePin(SEG0_GPIO_Port, SEG0_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, SET);
-				  HAL_GPIO_WritePin(GPIOA, EN2_Pin|EN0_Pin|EN1_Pin, SET);
-				  HAL_GPIO_WritePin(GPIOA, EN3_Pin, RESET);
-		  		  break;
-		  	  case 0:
-		  		  HAL_GPIO_WritePin(SEG0_GPIO_Port, SEG0_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, RESET);
-				  HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, SET);
-				  HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, SET);
-				  HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, RESET);
-				  HAL_GPIO_WritePin(GPIOA, EN2_Pin, RESET);
-				  HAL_GPIO_WritePin(GPIOA, EN3_Pin|EN0_Pin|EN1_Pin, SET);
-		  		  break;
-		  	  default:
-		  		  break;
-		  }
-		  status++;
-		  if (status >= 2) {
-			  status = 0;
-		  }
-		  setTimer2(50);
-	  }*/
-
-
+  {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -267,6 +226,29 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+uint8_t segment_digits[10][7] = {
+	{0,0,0,0,0,0,1}, // 0
+	{1,0,0,1,1,1,1}, // 1
+	{0,0,1,0,0,1,0}, // 2
+	{0,0,0,0,1,1,0}, // 3
+	{1,0,0,1,1,0,0}, // 4
+	{0,1,0,0,1,0,0}, // 5
+	{0,1,0,0,0,0,0}, // 6
+	{0,0,0,1,1,1,1}, // 7
+	{0,0,0,0,0,0,0}, // 8
+	{0,0,0,0,1,0,0}  // 9
+};
+void display7SEG(int num) {
+	if (num > 9)	return;
+	HAL_GPIO_WritePin(SEG0_GPIO_Port, SEG0_Pin, segment_digits[num][0] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, segment_digits[num][1] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, segment_digits[num][2] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, segment_digits[num][3] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, segment_digits[num][4] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, segment_digits[num][5] ? SET : RESET);
+	HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, segment_digits[num][6] ? SET : RESET);
+}
+
 int counter = 100;
 int counter1 = 50;
 #define INIT 0
@@ -285,13 +267,7 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 				HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, RESET);
 				HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, RESET);
 
-				HAL_GPIO_WritePin(SEG0_GPIO_Port, GPIO_PIN_0, SET);
-				HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, RESET);
-				HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, RESET);
-				HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG6_Pin, SET);
-				HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG3_Pin, SET);
-				HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG4_Pin, SET);
-				HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG5_Pin, SET);
+				display7SEG(1);
 
 				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
 				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
@@ -305,13 +281,7 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 				counter = 50;
 				led_status = LED1;
 
-				HAL_GPIO_WritePin(SEG0_GPIO_Port, GPIO_PIN_0, RESET);
-				HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, RESET);
-				HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, SET);
-				HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, RESET);
-				HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, RESET);
-				HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, SET);
-				HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, RESET);
+				display7SEG(2);
 
 				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
@@ -327,13 +297,7 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 				HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 				HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 
-				HAL_GPIO_WritePin(SEG0_GPIO_Port, GPIO_PIN_0, RESET);
-				HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, RESET);
-				HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, RESET);
-				HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, RESET);
-				HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, SET);
-				HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, SET);
-				HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, RESET);
+				display7SEG(3);
 
 				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
@@ -347,13 +311,7 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 				counter = 50;
 				led_status = LED3;
 
-				HAL_GPIO_WritePin(SEG0_GPIO_Port, GPIO_PIN_0, RESET);
-				HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, RESET);
-				HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, RESET);
-				HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, RESET);
-				HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, RESET);
-				HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, RESET);
-				HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, SET);
+				display7SEG(0);
 
 				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
@@ -369,13 +327,7 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 				HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 				HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 
-				HAL_GPIO_WritePin(SEG0_GPIO_Port, GPIO_PIN_0, SET);
-				HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, RESET);
-				HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, RESET);
-				HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, SET);
-				HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, SET);
-				HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, SET);
-				HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, SET);
+				display7SEG(1);
 
 				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
 				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
