@@ -219,6 +219,7 @@ int main(void)
   setTimer0(1000);
   setTimer1(70);
   setTimer2(10);
+  setTimer3(240);
   while (1)
   {
 	  if (timer0_flag == 1) {
@@ -243,10 +244,13 @@ int main(void)
 		  updateLEDMatrix(index_led_matrix++);
 		  if (index_led_matrix >= MAX_LED_MATRIX) {
 			  index_led_matrix = 0;
-			  shiftLeft();
-			  shift_position = (shift_position + 1) % MAX_LED_MATRIX;
 		  }
-		  setTimer1(10);
+		  setTimer1(20);
+	  }
+	  if (timer3_flag == 1) {
+		  shiftLeft();
+		  shift_position = (shift_position + 1) % MAX_LED_MATRIX;
+		  setTimer3(160);
 	  }
 	  if (timer2_flag == 1) {
 		  update7SEG(index_led++);
