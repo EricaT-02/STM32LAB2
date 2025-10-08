@@ -60,7 +60,7 @@ const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] ;
 int hour = 15 , minute = 8 , second = 50;
-int counter = 25;
+int counter = -1;
 int counter1 = 100;
 uint8_t segment_digits[10][7] = {
 	{0,0,0,0,0,0,1}, // 0
@@ -113,6 +113,7 @@ void update7SEG(int index) {
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
 		display7SEG(led_buffer[3]);
+		break;
 	default:
 		break;
 	}
@@ -309,10 +310,11 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 	counter--;
 	counter1--;
-	if (index_led >= 4) index_led = 0;
 	if (counter <= 0) {
 		counter = 25;
-		update7SEG(index_led++);
+		update7SEG(index_led);
+		index_led++;
+		if (index_led >= MAX_LED) index_led = 0;
 	}
 	if (counter1 <= 0) {
 		counter1 = 100;
