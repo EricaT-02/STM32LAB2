@@ -66,8 +66,14 @@ void updateLEDMatrix(int index) {
 	 HAL_GPIO_WritePin(GPIOB, ROW0_Pin | ROW1_Pin | ROW2_Pin | ROW3_Pin |
 							  ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, GPIO_PIN_SET);
 
-	uint16_t row_data = matrix_buffer[index];
-	HAL_GPIO_WritePin(GPIOB, (row_data << 8), GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, (matrix_buffer[index] & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, (matrix_buffer[index] & 0x02) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, (matrix_buffer[index] & 0x04) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, (matrix_buffer[index] & 0x08) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, (matrix_buffer[index] & 0x10) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, (matrix_buffer[index] & 0x20) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, (matrix_buffer[index] & 0x40) ? RESET : SET);
+	HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, (matrix_buffer[index] & 0x80) ? RESET : SET);
 	switch(index) {
 	case 0:
 		HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, RESET);
