@@ -66,8 +66,6 @@ void updateLEDMatrix(int index) {
 	 HAL_GPIO_WritePin(GPIOB, ROW0_Pin | ROW1_Pin | ROW2_Pin | ROW3_Pin |
 							  ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, GPIO_PIN_SET);
 
-	//uint16_t row_data = matrix_buffer[index];
-	//HAL_GPIO_WritePin(GPIOB, (row_data << 8), GPIO_PIN_RESET);
 	int shifted_index = (index + shift_position) % MAX_LED_MATRIX;
 	HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, (matrix_buffer[shifted_index] & 0x01) ? RESET : SET);
 	HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, (matrix_buffer[shifted_index] & 0x02) ? RESET : SET);
@@ -111,7 +109,7 @@ void shiftLeft(void) {
 	for (int i = 0; i < MAX_LED_MATRIX - 1; i++) {
 		matrix_buffer[i] = matrix_buffer[i + 1]; // Shift left
 	}
-	matrix_buffer[MAX_LED_MATRIX - 1] = temp; // Wrap around
+	matrix_buffer[MAX_LED_MATRIX - 1] = temp;
 }
 
 const int MAX_LED = 4;
