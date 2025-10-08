@@ -235,7 +235,7 @@ int main(void)
 	  if (timer1_flag == 1) {
 		  updateLEDMatrix(index_led_matrix++);
 		  if (index_led_matrix >= MAX_LED_MATRIX) index_led_matrix = 0;
-		  setTimer1(40);
+		  setTimer1(10);
 	  }
 	  if (timer2_flag == 1) {
 		  update7SEG(index_led++);
